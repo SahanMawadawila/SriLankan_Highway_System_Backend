@@ -14,7 +14,7 @@ export const handleRefreshTokenController = expressAsyncHandler(
       return;
     }
 
-    //find refresh token in database and delete it
+    //find refresh token in database
     const user = await UserModel.getUserByRefreshToken(cookie.jwt);
 
     if (!user) {
@@ -27,7 +27,7 @@ export const handleRefreshTokenController = expressAsyncHandler(
       return;
     }
 
-    //get new access token
+    //get new access token after verifying refresh token
     try {
       const payload = jwt.verify(
         cookie.jwt,
@@ -37,7 +37,7 @@ export const handleRefreshTokenController = expressAsyncHandler(
       const accessToken = jwt.sign(
         { email: payload.email, role: userRole },
         process.env.ACCESS_TOKEN_SECRET!,
-        { expiresIn: "60s" } //change this in future
+        { expiresIn: "15m" } //change this in future
       );
       res.status(200).send({ accessToken, role: userRole });
     } catch {

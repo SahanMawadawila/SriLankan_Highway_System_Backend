@@ -9,12 +9,20 @@ import "dotenv/config";
 import { refreshRouter } from "./src/routes/refresh";
 import { userRouter } from "./src/routes/user";
 import cors from "cors";
+import { logger } from "./src/middleware/reqlog";
 
 //assume admin=5401, user=2024, police= 4048
 
+//cors cannot *, when we use credentials
+const corsOptions = {
+  origin: "http://localhost:5173", // Allow requests from this origin
+  credentials: true, // Allow credentials (cookies, authorization headers, etc.)
+};
+
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
+app.use(logger);
 
 const port = 3000;
 

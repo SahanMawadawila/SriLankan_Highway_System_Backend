@@ -47,7 +47,7 @@ export const signInController = expressAsyncHandler(
     const accessToken = jwt.sign(
       { email: user.email, role: userRole },
       process.env.ACCESS_TOKEN_SECRET!,
-      { expiresIn: "60s" } //change this in future
+      { expiresIn: "15m" } //change this in future
     );
 
     //generate refresh token
@@ -69,6 +69,8 @@ export const signInController = expressAsyncHandler(
     });
 
     //send response
-    res.status(200).send({ accessToken, role: userRole, photo_url });
+    res
+      .status(200)
+      .send({ accessToken, role: userRole, photo_url, email: user.email });
   }
 );
