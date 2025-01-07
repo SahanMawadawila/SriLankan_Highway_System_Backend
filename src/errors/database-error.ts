@@ -11,6 +11,7 @@ export class DatabaseConnectionError extends CustomError {
     return [
       {
         message: "Error connecting to database",
+        field: "form",
       },
     ];
   }

@@ -8,13 +8,17 @@ import { signoutRouter } from "./src/routes/signout";
 import "dotenv/config";
 import { refreshRouter } from "./src/routes/refresh";
 import { userRouter } from "./src/routes/user";
+import cors from "cors";
 
 //assume admin=5401, user=2024, police= 4048
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 const port = 3000;
+
+//static upload folder
 
 //define routes here
 //signup

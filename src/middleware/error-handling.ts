@@ -21,6 +21,6 @@ export const errorHandler = (
     } */
   }
   res.status(500).send({
-    errors: [{ message: "Something went wrong" }],
+    errors: [{ message: "Something went wrong", field: "form" }],
   });
 };

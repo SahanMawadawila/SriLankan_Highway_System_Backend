@@ -25,9 +25,7 @@ export class UserModel {
     }
 
     //default photo_url (should remove this)
-    if (!photo_url) {
-      photo_url = "https://www.gravatar.com/avatar/";
-    }
+
     const values = [email, password, role, photo_url];
 
     try {

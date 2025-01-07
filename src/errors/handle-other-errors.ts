@@ -8,6 +8,6 @@ export class HandleOtherErrors extends CustomError {
     Object.setPrototypeOf(this, HandleOtherErrors.prototype);
   }
   serializeErrors() {
-    return [{ message: this.message }];
+    return [{ message: this.message, field: "form" }];
   }
 }
