@@ -10,6 +10,9 @@ import { refreshRouter } from "./src/routes/refresh";
 import { userRouter } from "./src/routes/user";
 import cors from "cors";
 import { logger } from "./src/middleware/reqlog";
+import { createAdmin, createAllInterchangeTables } from "./src/config/db";
+import { createPolice } from "./src/config/db";
+import { allInterchanges, prices } from "./src/data/interchange-details";
 
 //assume admin=5401, user=2024, police= 4048
 
@@ -42,6 +45,9 @@ app.use("/user", userRouter);
 app.use(errorHandler as express.ErrorRequestHandler);
 const start = async () => {
   await createTable();
+  await createAdmin();
+  await createPolice();
+  await createAllInterchangeTables();
   app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
   });

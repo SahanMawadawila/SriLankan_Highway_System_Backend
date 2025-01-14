@@ -22,26 +22,28 @@ export const signInController = expressAsyncHandler(
       throw new HandleOtherErrors("Invalid credentials", 401);
     }
 
-    const getObjectParams = {
-      Bucket: process.env.BUCKET_NAME,
-      Key: user.photo_url,
-    };
-
     let url;
-    try {
-      const command = new GetObjectCommand(getObjectParams);
-      url = await getSignedUrl(s3, command, { expiresIn: 3600 });
-      if (!url) {
-        throw new HandleOtherErrors("Server Error", 500);
+    if (user.photo_url) {
+      const getObjectParams = {
+        Bucket: process.env.BUCKET_NAME,
+        Key: user.photo_url,
+      };
+
+      try {
+        const command = new GetObjectCommand(getObjectParams);
+        url = await getSignedUrl(s3, command, { expiresIn: 3600 });
+        if (!url) {
+          throw new HandleOtherErrors("Server Error", 500);
+        }
+        console.log("Signed URL:", url);
+      } catch (error) {
+        console.log(error);
+        throw new HandleOtherErrors("Error generating signed URL", 500);
       }
-      console.log("Signed URL:", url);
-    } catch (error) {
-      console.log(error);
-      throw new HandleOtherErrors("Error generating signed URL", 500);
     }
 
     const userRole = user.role!;
-    const photo_url = url;
+    const photo_url = url ? url : "";
 
     //generate access token
     const accessToken = jwt.sign(
