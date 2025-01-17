@@ -7,7 +7,8 @@ export const handleRefreshTokenController = expressAsyncHandler(
   async (req: Request, res: Response) => {
     const cookie = req.cookies;
 
-    console.log(cookie);
+    //console.log(cookie);
+    console.log(cookie.jwt);
 
     if (!cookie?.jwt) {
       res.status(404).send({ message: "Cookie not found" });
@@ -16,11 +17,12 @@ export const handleRefreshTokenController = expressAsyncHandler(
 
     //find refresh token in database
     const user = await UserModel.getUserByRefreshToken(cookie.jwt);
+    //console.log("User:", user);
 
     if (!user) {
       res.clearCookie("jwt", {
         httpOnly: true,
-        secure: true,
+        secure: false,
         sameSite: "none",
       });
       res.status(204).send({ message: "User already signed out" });
@@ -39,6 +41,7 @@ export const handleRefreshTokenController = expressAsyncHandler(
         process.env.ACCESS_TOKEN_SECRET!,
         { expiresIn: "15m" } //change this in future
       );
+      console.log("New access token:", accessToken);
       res.status(200).send({ accessToken, role: userRole });
     } catch {
       res.status(403).send({ message: "Forbidden" });

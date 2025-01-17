@@ -12,7 +12,7 @@ import cors from "cors";
 import { logger } from "./src/middleware/reqlog";
 import { createAdmin, createAllInterchangeTables } from "./src/config/db";
 import { createPolice } from "./src/config/db";
-import { allInterchanges, prices } from "./src/data/interchange-details";
+//import { allInterchanges, prices } from "./src/data/interchange-details";
 
 //assume admin=5401, user=2024, police= 4048
 
